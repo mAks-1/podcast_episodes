@@ -1,10 +1,16 @@
+from uuid import uuid4
+
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
+
 from app.models.base import Base
 
-class PodcastEpisode(Base):
+class PodcastEpisodeModel(Base):
     __tablename__ = "episodes"
 
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    description = Column(String, nullable=False)
-    host = Column(String, nullable=False)
+    podcast_episode_id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid4()), index=True
+    )
+    title: Mapped[str] = mapped_column(unique=False, nullable=False)
+    description: Mapped[str] = mapped_column(unique=False, nullable=False)
+    host: Mapped[str] = mapped_column(unique=False, nullable=False)
