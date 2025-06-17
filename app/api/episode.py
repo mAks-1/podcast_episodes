@@ -20,6 +20,7 @@ router = APIRouter(prefix="/episodes", tags=["Episodes"])
 async def get_episodes(
     session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
 ):
+    """Get all episodes"""
     episodes = await crud_podcast_episode.get_all_episodes(session=session)
     return episodes if episodes else []
 
@@ -29,6 +30,7 @@ async def create_episode(
     session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
     episode_create: PodcastEpisodeCreate,
 ):
+    """Create a new episode"""
     return await crud_podcast_episode.create_episode(
         session=session,
         episode_create=episode_create,
@@ -41,6 +43,7 @@ async def generate_alternative_episode_field(
     request: GenerationRequest,
     session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
 ):
+    """Generate an alternative description or title for episode"""
     episode = await session.get(PodcastEpisodeModel, episode_id)
     if not episode:
         raise HTTPException(status_code=404, detail="Episode not found")

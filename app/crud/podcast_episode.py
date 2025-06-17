@@ -11,6 +11,7 @@ from app.schemas.podcast_episode import PodcastEpisodeCreate
 async def get_all_episodes(
     session: AsyncSession,
 ) -> Sequence[PodcastEpisodeModel]:
+    """Get all episodes"""
     stmt = select(PodcastEpisodeModel).order_by(PodcastEpisodeModel.podcast_episode_id)
     result = await session.execute(stmt)
     episodes = result.scalars().all()
@@ -20,6 +21,7 @@ async def create_episode(
     session: AsyncSession,
     episode_create: PodcastEpisodeCreate,
 ) -> PodcastEpisodeModel:
+    """Create new episode"""
     episode = PodcastEpisodeModel(**episode_create.model_dump())
     session.add(episode)
     await session.commit()

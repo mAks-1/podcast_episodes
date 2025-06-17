@@ -12,7 +12,3 @@ async def lifespan(app: FastAPI):
 
 main_app = FastAPI(title="Podcast API", lifespan=lifespan)
 main_app.include_router(episode_router)
-
-@main_app.get("/")
-async def root():
-    return {"message": "Hi"}

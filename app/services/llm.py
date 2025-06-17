@@ -5,6 +5,7 @@ LLM_API_KEY = os.getenv("LLM_API_KEY")
 
 
 def generate_alternative_llm(prompt: str, input_text: str) -> str:
+    """Generate an alternative LM for an input text."""
     full_prompt = f"""You are a professional content editor. {prompt}
 
     Original text:

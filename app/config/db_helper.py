@@ -11,6 +11,7 @@ from .config import settings
 
 
 class DbHelper:
+    """Database helper with some helper methods"""
     def __init__(
         self,
         url: str,
