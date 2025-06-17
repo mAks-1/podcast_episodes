@@ -10,5 +10,6 @@ async def lifespan(app: FastAPI):
     yield
     await db_helper.dispose()
 
+
 main_app = FastAPI(title="Podcast API", lifespan=lifespan)
 main_app.include_router(episode_router)

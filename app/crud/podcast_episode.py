@@ -17,6 +17,7 @@ async def get_all_episodes(
     episodes = result.scalars().all()
     return episodes
 
+
 async def create_episode(
     session: AsyncSession,
     episode_create: PodcastEpisodeCreate,
