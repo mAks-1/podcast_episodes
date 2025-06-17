@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from typing import Literal
+
+from pydantic import BaseModel, Field
 
 
 class PodcastEpisodeCreate(BaseModel):
@@ -12,3 +14,8 @@ class PodcastEpisode(PodcastEpisodeCreate):
 
     class Config:
         orm_mode = True
+
+
+class GenerationRequest(BaseModel):
+    target: Literal["title", "description"]
+    prompt: str = Field(..., description="Rewrite the title for a younger audience")
