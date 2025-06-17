@@ -5,6 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.podcast_episode import PodcastEpisodeModel
+from app.schemas.podcast_episode import PodcastEpisodeCreate
 
 
 async def get_all_episodes(
@@ -14,3 +15,12 @@ async def get_all_episodes(
     result = await session.execute(stmt)
     episodes = result.scalars().all()
     return episodes
+
+async def create_episode(
+    session: AsyncSession,
+    episode_create: PodcastEpisodeCreate,
+) -> PodcastEpisodeModel:
+    episode = PodcastEpisodeModel(**episode_create.model_dump())
+    session.add(episode)
+    await session.commit()
+    return episode
