@@ -2,6 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.responses import JSONResponse
 
 from app.config import db_helper
 from app.models.podcast_episode import PodcastEpisodeModel
@@ -64,3 +65,18 @@ async def generate_alternative_episode_field(
         "prompt": request.prompt,
         "generated_alternative": generated.strip(),
     }
+
+
+@router.post("/webhook/event", status_code=201)
+async def webhook_create_episode(
+    episode: PodcastEpisodeCreate,
+    session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
+):
+    created = await crud_podcast_episode.create_episode(session, episode)
+    return JSONResponse(
+        content={
+            "message": "Episode created via webhook",
+            "id": created.podcast_episode_id,
+        },
+        status_code=201,
+    )
