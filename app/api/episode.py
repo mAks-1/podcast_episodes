@@ -13,6 +13,7 @@ from app.schemas.podcast_episode import (
 )
 from app.crud import podcast_episode as crud_podcast_episode
 from app.services.llm import generate_alternative_llm
+from app.tg.tg_nofify import send_telegram_notification
 
 router = APIRouter(prefix="/episodes", tags=["Episodes"])
 
@@ -73,6 +74,13 @@ async def webhook_create_episode(
     session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
 ):
     created = await crud_podcast_episode.create_episode(session, episode)
+    try:
+        await send_telegram_notification(
+            f"New episode added:\n<b>{created.title}</b>\nHost: {created.host}"
+        )
+    except Exception as e:
+        print(f"[Webhook Notify Error] {e}")
+
     return JSONResponse(
         content={
             "message": "Episode created via webhook",
