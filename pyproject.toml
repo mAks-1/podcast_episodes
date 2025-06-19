@@ -20,6 +20,7 @@ alembic = ">=1.15.2,<2.0.0"
 pydantic-settings = "^2.9.1"
 aiogram = "^3.20.0.post0"
 aiohttp = "3.11.6"
+feedparser = "^6.0.11"
 
 
 [build-system]
