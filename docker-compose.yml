@@ -23,5 +23,14 @@ services:
     ports:
       - "8000:8000"
 
+  bot:
+    build: .
+    command: python app/tg/bot.py
+    depends_on:
+      - app
+    env_file:
+      - .env
+
+
 volumes:
   pg_data:
